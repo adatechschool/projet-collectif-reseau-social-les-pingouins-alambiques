@@ -46,6 +46,22 @@
                 /*
                  * Etape 2 : trouver tous les mots clés
                  */
+                $laQuestionEnSql = "
+                SELECT posts.content,
+                posts.created,
+                users.alias as author_name,  
+                count(likes.id) as like_number,  
+                GROUP_CONCAT(DISTINCT users.label) AS taglist 
+                FROM posts
+                JOIN users ON  users.id=posts.user_id
+                LEFT JOIN posts_tags ON posts.id = posts_tags.post_id  
+                LEFT JOIN tags       ON posts_tags.tag_id  = tags.id 
+                LEFT JOIN likes      ON likes.post_id  = posts.id 
+                GROUP BY posts.id
+                ORDER BY posts.created DESC  
+                LIMIT 5
+                ";
+            $lesInformations = $mysqli->query($laQuestionEnSql);
                 $laQuestionEnSql = "SELECT * FROM `tags` LIMIT 50";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Vérification
@@ -59,12 +75,12 @@
                  * Etape 3 : @todo : Afficher les mots clés en s'inspirant de ce qui a été fait dans news.php
                  * Attention à en pas oublier de modifier tag_id=321 avec l'id du mot dans le lien
                  */
-                while ($tag = $lesInformations->fetch_assoc())
+                while ($tags = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
+                    echo "<pre>" . print_r($users, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>#chaussette</h3>
+                        <h3>  <p> <?php echo $tags['label']?></p> </h3>
                         <p>id:321</p>
                         <nav>
                             <a href="tags.php?tag_id=321">Messages</a>
@@ -92,13 +108,13 @@
                  * Etape 5 : @todo : Afficher les utilisatrices en s'inspirant de ce qui a été fait dans news.php
                  * Attention à en pas oublier de modifier dans le lien les "user_id=123" avec l'id de l'utilisatrice
                  */
-                while ($tag = $lesInformations->fetch_assoc())
+                while ($tags = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
+                    echo "<pre>" . print_r($tags, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>Alexandra</h3>
-                        <p>id:123</p>
+                        <h3><?php echo $tags['author_name'] ?></h3>
+                        <p><?php echo $tags['user_id'] ?></p>
                         <nav>
                             <a href="wall.php?user_id=123">Mur</a>
                             | <a href="feed.php?user_id=123">Flux</a>
