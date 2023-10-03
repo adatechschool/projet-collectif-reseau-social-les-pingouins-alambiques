@@ -51,7 +51,7 @@
                 posts.created,
                 users.alias as author_name,  
                 count(likes.id) as like_number,  
-                GROUP_CONCAT(DISTINCT users.label) AS taglist 
+                GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                 FROM posts
                 JOIN users ON  users.id=posts.user_id
                 LEFT JOIN posts_tags ON posts.id = posts_tags.post_id  
@@ -80,10 +80,10 @@
                     echo "<pre>" . print_r($users, 1) . "</pre>";
                     ?>
                     <article>
-                        <h3>  <p> <?php echo $tags['label']?></p> </h3>
-                        <p>id:321</p>
+                        <h3> <?php echo $tags['label']?> </h3>
+                        <p><?php echo $tags['id']?></p>
                         <nav>
-                            <a href="tags.php?tag_id=321">Messages</a>
+                            <a href="tags.php?tag_id=tags.id">Messages</a>
                         </nav>
                     </article>
                 <?php } ?>
@@ -110,17 +110,19 @@
                  */
                 while ($tags = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tags, 1) . "</pre>";
+                
                     ?>
                     <article>
-                        <h3><?php echo $tags['author_name'] ?></h3>
-                        <p><?php echo $tags['user_id'] ?></p>
+                        <p><?php echo $tags['email'] ?></p><br>
+                        <p><?php echo $tags['id'] ?></p><br>
+                        <p><?php echo $tags['password'] ?></p><br>
+                        <p><?php echo $tags['alias'] ?></p>
                         <nav>
-                            <a href="wall.php?user_id=123">Mur</a>
-                            | <a href="feed.php?user_id=123">Flux</a>
-                            | <a href="settings.php?user_id=123">Paramètres</a>
-                            | <a href="followers.php?user_id=123">Suiveurs</a>
-                            | <a href="subscriptions.php?user_id=123">Abonnements</a>
+                            <a href="wall.php?user_id">Mur</a>
+                            | <a href="feed.php?user_id">Flux</a>
+                            | <a href="settings.php?user_id">Paramètres</a>
+                            | <a href="followers.php?user_id">Suiveurs</a>
+                            | <a href="subscriptions.php?user_id">Abonnements</a>
                         </nav>
                     </article>
                 <?php } ?>
