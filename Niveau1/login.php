@@ -49,15 +49,13 @@ session_start();
                     {
                         // on ne fait ce qui suit que si un formulaire a été soumis.
                         // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
-                        // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                        echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
-                        $emailAVerifier = $_POST['???'];
-                        $passwdAVerifier = $_POST['???'];
+                        $emailAVerifier = $_POST['email'];
+                        $passwdAVerifier = $_POST['password'];
 
 
                         //Etape 3 : Ouvrir une connexion avec la base de donnée.
-                        $mysqli = new mysqli("localhost", "root", "root", "socialnetwork_tests");
+                        $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
                         //Etape 4 : Petite sécurité
                         // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
                         $emailAVerifier = $mysqli->real_escape_string($emailAVerifier);
@@ -92,8 +90,8 @@ session_start();
                         <dl>
                             <dt><label for='email'>E-Mail</label></dt>
                             <dd><input type='email'name='email'></dd>
-                            <dt><label for='motpasse'>Mot de passe</label></dt>
-                            <dd><input type='password'name='motpasse'></dd>
+                            <dt><label for='password'>Mot de passe</label></dt>
+                            <dd><input type='password'name='password'></dd>
                         </dl>
                         <input type='submit'>
                     </form>

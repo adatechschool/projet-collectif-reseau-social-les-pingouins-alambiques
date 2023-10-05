@@ -43,7 +43,7 @@ session_start();
                     /**
                      * BD
                      */
-                    $mysqli = new mysqli("localhost", "root", "root", "socialnetwork_tests");
+                    $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
                     /**
                      * Récupération de la liste des auteurs
                      */
@@ -61,17 +61,14 @@ session_start();
                      */
                     // Etape 1 : vérifier si on est en train d'afficher ou de traiter le formulaire
                     // si on recoit un champs email rempli il y a une chance que ce soit un traitement
-                    $enCoursDeTraitement = isset($_POST['auteur']);
+                    $enCoursDeTraitement = isset($_POST['alias']);
                     if ($enCoursDeTraitement)
                     {
                         // on ne fait ce qui suit que si un formulaire a été soumis.
                         // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
-                        // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                        echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
-                        $authorId = $_POST['???'];
-                        $postContent = $_POST['???'];
-
+                        $authorId = $_POST['alias'];
+                        $postContent = $_POST['content'];
 
                         //Etape 3 : Petite sécurité
                         // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
@@ -79,15 +76,13 @@ session_start();
                         $postContent = $mysqli->real_escape_string($postContent);
                         //Etape 4 : construction de la requete
                         $lInstructionSql = "INSERT INTO posts "
-                                . "(id, user_id, content, created, permalink, post_id) "
+                                . "(id, user_id, content, created, parent_id) "
                                 . "VALUES (NULL, "
                                 . $authorId . ", "
                                 . "'" . $postContent . "', "
                                 . "NOW(), "
-                                . "'', "
                                 . "NULL);"
                                 ;
-                        echo $lInstructionSql;
                         // Etape 5 : execution
                         $ok = $mysqli->query($lInstructionSql);
                         if ( ! $ok)
@@ -95,22 +90,22 @@ session_start();
                             echo "Impossible d'ajouter le message: " . $mysqli->error;
                         } else
                         {
-                            echo "Message posté en tant que :" . $listAuteurs[$authorId];
+                            echo "Message posté en tant que : " . $listAuteurs[$authorId];
                         }
                     }
                     ?>                     
                     <form action="usurpedpost.php" method="post">
-                        <input type='hidden' name='???' value='achanger'>
+                      <!-- <input type='hidden' name='???' value='achanger'>-->
                         <dl>
-                            <dt><label for='auteur'>Auteur</label></dt>
-                            <dd><select name='auteur'>
+                            <dt><label for='alias'>Auteur</label></dt>
+                            <dd><select name='alias'>
                                     <?php
                                     foreach ($listAuteurs as $id => $alias)
                                         echo "<option value='$id'>$alias</option>";
                                     ?>
                                 </select></dd>
-                            <dt><label for='message'>Message</label></dt>
-                            <dd><textarea name='message'></textarea></dd>
+                            <dt><label for='content'>Message</label></dt>
+                            <dd><textarea name='content'></textarea></dd>
                         </dl>
                         <input type='submit'>
                     </form>               

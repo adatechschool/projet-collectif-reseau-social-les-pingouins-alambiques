@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!doctype html>
 <html lang="fr">
 
@@ -47,8 +48,6 @@
                 if ($enCoursDeTraitement) {
                     // on ne fait ce qui suit que si un formulaire a été soumis.
                     // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
-                    // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                    echo "<pre>" . print_r($_POST, 1) . "</pre>";
                     // et complétez le code ci dessous en remplaçant les ???
                     $new_email = $_POST['email'];
                     $new_alias = $_POST['alias'];
@@ -74,7 +73,6 @@
                         . "'" . $new_alias . "'"
                         . ");";
                     // Etape 6: exécution de la requete
-                    echo "<pre>" . print_r($lInstructionSql, 1) . "</pre>";
                     $ok = $mysqli->query($lInstructionSql);
                     if (!$ok) {
                         echo "L'inscription a échouée : " . $mysqli->error;
