@@ -53,10 +53,11 @@
                     $new_email = $_POST['email'];
                     $new_alias = $_POST['alias'];
                     $new_passwd = $_POST['password'];
+                
 
 
                     //Etape 3 : Ouvrir une connexion avec la base de donnée.
-                    $mysqli = new mysqli("localhost", "root", "root", "socialnetwork_tests");
+                    $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
                     //Etape 4 : Petite sécurité
                     // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
                     $new_email = $mysqli->real_escape_string($new_email);
@@ -73,6 +74,7 @@
                         . "'" . $new_alias . "'"
                         . ");";
                     // Etape 6: exécution de la requete
+                    echo "<pre>" . print_r($lInstructionSql, 1) . "</pre>";
                     $ok = $mysqli->query($lInstructionSql);
                     if (!$ok) {
                         echo "L'inscription a échouée : " . $mysqli->error;
@@ -83,14 +85,14 @@
                 }
                 ?>
                 <form action="registration.php" method="post">
-                    <input type='hidden' name='???' value='achanger'>
+                    <!-- <input type='hidden' name='???' value='achanger'> -->
                     <dl>
-                        <dt><label for='pseudo'>Pseudo</label></dt>
-                        <dd><input type='text' name='pseudo'></dd>
+                        <dt><label for='alias'>Pseudo</label></dt>
+                        <dd><input type='text' name='alias'></dd>
                         <dt><label for='email'>E-Mail</label></dt>
                         <dd><input type='email' name='email'></dd>
-                        <dt><label for='motpasse'>Mot de passe</label></dt>
-                        <dd><input type='password' name='motpasse'></dd>
+                        <dt><label for='password'>Mot de passe</label></dt>
+                        <dd><input type='password' name='password'></dd>
                     </dl>
                     <input type='submit'>
                 </form>
