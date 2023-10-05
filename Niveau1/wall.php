@@ -48,10 +48,24 @@
                     (n°
                     <?php echo $userId ?>)
                 </p>
+
+                <!-- This button works! Make it better though.... -->
+                <form action='' method="post" name=''>
+                    <input name="barry" type="submit" value="Abonne">
+                </form>
+
+                <!-- INSERT INTO `followers`(`id`, `followed_user_id`, `following_user_id`) VALUES (NULL,2,9); 
+            Do something with this SQL request!-->
             </section>
         </aside>
         <main>
             <?php
+
+            // this is part of the button, it works, dont change it!(much)
+            if (isset($_POST['barry'])) {
+                echo "Barry is clicked";
+            }
+
 
             $enCoursDeTraitement = isset($_POST['alias']);
             if ($enCoursDeTraitement) {
@@ -143,6 +157,8 @@
                 </dl>
                 <input type='submit'>
             </form>
+
+
 
 
         </main>
