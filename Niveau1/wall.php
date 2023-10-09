@@ -23,7 +23,7 @@
          */
         $userId = intval($_GET['user_id']);
         $sessionId = $_SESSION['connected_id']
-        ?>
+            ?>
         <?php
         /**
          * Etape 2: se connecter à la base de donnée
@@ -50,10 +50,15 @@
                     <?php echo $userId ?>)
                 </p>
 
+                <?php
+                if ($userId != $sessionId) {
+                    ?>
+                    <form action="" method="post" name="">
+                        <input name="toFollow" type="submit" value="Abonne">
+                    </form>
+
+                <?php } ?>
                 <!-- This button works! Make it better though.... -->
-                <form action='' method="post" name=''>
-                    <input name="toFollow" type="submit" value="Abonne">
-                </form>
 
             </section>
         </aside>
@@ -63,16 +68,16 @@
             // this is part of the button, it works, dont change it!(much)
             if (isset($_POST['toFollow'])) {
                 $lInstructionToFollowSQL = "INSERT INTO followers "
-                . "(id, followed_user_id, following_user_id) " 
-                . "VALUES (NULL, "
-                . $userId . ", " 
-                . $sessionId . 
-                ")";
-            
+                    . "(id, followed_user_id, following_user_id) "
+                    . "VALUES (NULL, "
+                    . $userId . ", "
+                    . $sessionId .
+                    ")";
+
                 $ok = $mysqli->query($lInstructionToFollowSQL);
                 if (!$ok) {
                     echo "Impossible de suivre: " . $mysqli->error;
-                    echo $sessionId ;
+                    echo $sessionId;
                 } else {
                     echo "Tu suis: " . $userId;
                 }
@@ -162,14 +167,19 @@
                 </article>
             <?php } ?>
 
-            <form action="" method="post">
-                <input type='hidden' name='alias' value=<?php echo $_SESSION['connected_id'] ?>>
-                <dl>
-                    <dt><label for='content'>Message</label></dt>
-                    <dd><textarea name='content'></textarea></dd>
-                </dl>
-                <input type='submit'>
-            </form>
+            <?php
+            if ($userId == $sessionId) {
+                ?>
+                <form action="" method="post">
+                    <input type='hidden' name='alias' value=<?php echo $_SESSION['connected_id'] ?>>
+                    <dl>
+                        <dt><label for='content'>Message</label></dt>
+                        <dd><textarea name='content'></textarea></dd>
+                    </dl>
+                    <input type='submit'>
+                </form>
+
+            <?php } ?>
 
 
 
