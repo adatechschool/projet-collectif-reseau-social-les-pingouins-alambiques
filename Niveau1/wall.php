@@ -52,7 +52,7 @@
                 </p>
 
                 <?php
-                if ($userId !== $sessionId) {
+                if ($userId != $sessionId) {
                     $sql = "SELECT COUNT(*) AS count_entries " .
                         "FROM followers " .
                         "WHERE following_user_id = $sessionId " .
