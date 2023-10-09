@@ -22,6 +22,7 @@
          * ... mais en résumé c'est une manière de passer des informations à la page en ajoutant des choses dans l'url
          */
         $userId = intval($_GET['user_id']);
+        $sessionId = $_SESSION['connected_id']
         ?>
         <?php
         /**
@@ -51,21 +52,31 @@
 
                 <!-- This button works! Make it better though.... -->
                 <form action='' method="post" name=''>
-                    <input name="barry" type="submit" value="Abonne">
+                    <input name="toFollow" type="submit" value="Abonne">
                 </form>
 
-                <!-- INSERT INTO `followers`(`id`, `followed_user_id`, `following_user_id`) VALUES (NULL,2,9); 
-            Do something with this SQL request!-->
             </section>
         </aside>
         <main>
             <?php
 
             // this is part of the button, it works, dont change it!(much)
-            if (isset($_POST['barry'])) {
-                echo "Barry is clicked";
+            if (isset($_POST['toFollow'])) {
+                $lInstructionToFollowSQL = "INSERT INTO followers "
+                . "(id, followed_user_id, following_user_id) " 
+                . "VALUES (NULL, "
+                . $userId . ", " 
+                . $sessionId . 
+                ")";
+            
+                $ok = $mysqli->query($lInstructionToFollowSQL);
+                if (!$ok) {
+                    echo "Impossible de suivre: " . $mysqli->error;
+                    echo $sessionId ;
+                } else {
+                    echo "Tu suis: " . $userId;
+                }
             }
-
 
             $enCoursDeTraitement = isset($_POST['alias']);
             if ($enCoursDeTraitement) {
@@ -120,6 +131,8 @@
             /**
              * Etape 4: @todo Parcourir les messsages et remplir correctement le HTML avec les bonnes valeurs php
              */
+
+
             while ($post = $lesInformations->fetch_assoc()) {
 
                 ?>
