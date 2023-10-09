@@ -7,6 +7,7 @@
     <title>ReSoC - Mur</title>
     <meta name="author" content="Julien Falconnet">
     <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body>
@@ -51,13 +52,33 @@
                 </p>
 
                 <?php
-                if ($userId != $sessionId) {
-                    ?>
-                    <form action="" method="post" name="">
-                        <input name="toFollow" type="submit" value="Abonne">
-                    </form>
+                if ($userId !== $sessionId) {
+                    $sql = "SELECT COUNT(*) AS count_entries " .
+                        "FROM followers " .
+                        "WHERE following_user_id = $sessionId " .
+                        "AND followed_user_id = $userId";
+                    $result = $mysqli->query($sql);
 
-                <?php } ?>
+                    if ($result === false) {
+                        echo "Error: " . $mysqli->error;
+                    } else {
+                        $row = $result->fetch_assoc();
+                        $count_entries = $row['count_entries'];
+
+                        if ($count_entries > 0) {
+                            echo "You are already following this user.";
+                        } else {
+
+                            ?>
+                            <form action="" method="post" name="followForm">
+                                <input type="submit" name="toFollow" value="Follow">
+                            </form>
+                            <?php
+                        }
+                    }
+                }
+                ?>
+
                 <!-- This button works! Make it better though.... -->
 
             </section>
@@ -78,8 +99,6 @@
                 if (!$ok) {
                     echo "Impossible de suivre: " . $mysqli->error;
                     echo $sessionId;
-                } else {
-                    echo "Tu suis: " . $userId;
                 }
             }
 
