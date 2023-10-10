@@ -60,7 +60,8 @@
                     $result = $mysqli->query($sql);
 
                     if ($result === false) {
-                        echo "Error: " . $mysqli->error;
+                        // echo "Error: " . $mysqli->error;
+                        echo "Vous n'êtes pas connecté";
                     } else {
                         $row = $result->fetch_assoc();
                         $count_entries = $row['count_entries'];
@@ -133,20 +134,39 @@
              * Etape 3: récupérer tous les messages de l'utilisatrice
              */
             $laQuestionEnSql = "
-                    SELECT posts.content, 
-                    posts.created, 
-                    users.alias as author_name, 
-                    users.id as author_id, 
-                    COUNT(likes.id) as like_number, GROUP_CONCAT(DISTINCT tags.label) AS taglist 
-                    FROM posts
-                    JOIN users ON  users.id=posts.user_id
-                    LEFT JOIN posts_tags ON posts.id = posts_tags.post_id  
-                    LEFT JOIN tags       ON posts_tags.tag_id  = tags.id 
-                    LEFT JOIN likes      ON likes.post_id  = posts.id 
-                    WHERE posts.user_id='$userId' 
-                    GROUP BY posts.id
-                    ORDER BY posts.created DESC  
-                    ";
+        SELECT
+            posts.content,
+            posts.created,
+            users.alias AS author_name,
+            users.id AS author_id,
+            like_counts.like_number,
+            GROUP_CONCAT(tags.label) AS taglist
+        FROM
+            posts
+        JOIN users ON users.id = posts.user_id
+        LEFT JOIN (
+            SELECT post_id, COUNT(id) AS like_number
+            FROM likes
+            GROUP BY post_id
+        ) AS like_counts ON posts.id = like_counts.post_id
+        LEFT JOIN posts_tags ON posts.id = posts_tags.post_id
+        LEFT JOIN tags ON posts_tags.tag_id = tags.id
+        WHERE
+            posts.user_id = '$userId'
+        GROUP BY
+            posts.id
+        ORDER BY
+            posts.created DESC
+        LIMIT 15";
+
+            // Selection content dans la table posts
+            // Selection created dans posts
+            // Selection alias dans la table users et l'appelle author_name
+            // Selection id dans la table users et l'appelle author_id
+            // Compte le nombre de likes par id de likes et il transforme en like_number
+            
+
+
             $lesInformations = $mysqli->query($laQuestionEnSql);
             if (!$lesInformations) {
                 echo ("Échec de la requete : " . $mysqli->error);
