@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <header>
     <img src="resoc.jpg" alt="Logo de notre réseau social" />
     <nav id="menu">
