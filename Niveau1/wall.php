@@ -61,7 +61,6 @@
                     $result = $mysqli->query($sql);
 
                     if ($result === false) {
-                        // echo "Error: " . $mysqli->error;
                         echo "Vous n'êtes pas connecté";
                     } else {
                         $row = $result->fetch_assoc();
@@ -80,8 +79,6 @@
                     }
                 }
                 ?>
-
-                <!-- This button works! Make it better though.... -->
 
             </section>
         </aside>
@@ -103,7 +100,7 @@
                     echo $sessionId;
                 }
             }
-            // Partie like
+            // Partie like button
             
             if (isset($_POST['toLike'])) {
                 $lInstructionToLikeSQL = "INSERT INTO likes (id, user_id, post_id) VALUES (NULL, $sessionId, $postsId);";
@@ -119,7 +116,7 @@
                 $ok = $mysqli->query($lInstructionToLikeSQL);
                 if (!$ok) {
                     echo ("Impossible de like: " . $mysqli->error);
-                    echo "lol";
+                    // echo "lol";
                     echo $postsId;
                 } else {
                     echo "ça marche";
