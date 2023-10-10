@@ -23,8 +23,9 @@
          * ... mais en résumé c'est une manière de passer des informations à la page en ajoutant des choses dans l'url
          */
         $userId = intval($_GET['user_id']);
-        $sessionId = $_SESSION['connected_id']
-            ?>
+        $sessionId = $_SESSION['connected_id'];
+        // $postsId = $likes["post_id"];
+        ?>
         <?php
         /**
          * Etape 2: se connecter à la base de donnée
@@ -100,6 +101,28 @@
                 if (!$ok) {
                     echo "Impossible de suivre: " . $mysqli->error;
                     echo $sessionId;
+                }
+            }
+            // Partie like
+            
+            if (isset($_POST['toLike'])) {
+                $lInstructionToLikeSQL = "INSERT INTO likes (id, user_id, post_id) VALUES (NULL, $sessionId, $postsId);";
+
+
+                // $lInstructionToLikeSQL = "INSERT INTO likes "
+                //     . "(id, user_id, post_id) "
+                //     . "VALUES (NULL, "
+                //     . $sessionId . ", "
+                //     . $postsId . ");"
+                // ;
+            
+                $ok = $mysqli->query($lInstructionToLikeSQL);
+                if (!$ok) {
+                    echo ("Impossible de like: " . $mysqli->error);
+                    echo "lol";
+                    echo $postsId;
+                } else {
+                    echo "ça marche";
                 }
             }
 
@@ -198,6 +221,11 @@
                     <footer>
                         <small>♥
                             <?php echo $post['like_number'] ?>
+                            <?php echo $post['likes.post_id'] ?>
+                            <?php echo "test" ?>
+                            <form action="" method="post" name="likeForm">
+                                <input type="submit" name="toLike" value="Like">
+                            </form>
                         </small>
                         <a href="">
                             <?php echo $post['taglist'] ?>
