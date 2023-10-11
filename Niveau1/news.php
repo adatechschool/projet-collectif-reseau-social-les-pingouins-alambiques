@@ -23,7 +23,12 @@
         </aside>
         <main>
 
+
             <?php
+
+            $userId = intval($_GET['user_id']);
+            $sessionId = $_SESSION['connected_id'];
+
             /*
               // C'est ici que le travail PHP commence
               // Votre mission si vous l'acceptez est de chercher dans la base
@@ -32,6 +37,18 @@
               // Documentation : les exemples https://www.php.net/manual/fr/mysqli.query.php
               // plus généralement : https://www.php.net/manual/fr/mysqli.query.php
              */
+            if (isset($_POST['toLike'])) {
+                $lInstructionToLikeSQL = "INSERT INTO likes "
+                    . "(id, user_id, post_id) "
+                    . " VALUES (NULL, "
+                    . $_SESSION['connected_id'] . ", "
+                    . $_POST['post_id'] . ")";
+
+                $ok = $mysqli->query($lInstructionToLikeSQL);
+                if (!$ok) {
+                    echo ("Impossible de like: " . $mysqli->error);
+                }
+            }
 
             // Etape 1: Ouvrir une connexion avec la base de donnée.
             $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
@@ -51,6 +68,7 @@
         SELECT
             posts.content,
             posts.created,
+            posts.id,
             users.alias AS author_name,
             users.id AS author_id,
             like_counts.like_number,

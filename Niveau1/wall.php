@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -24,7 +26,6 @@
          */
         $userId = intval($_GET['user_id']);
         $sessionId = $_SESSION['connected_id'];
-        // $postsId = $likes["post_id"];
         ?>
         <?php
         /**
@@ -100,28 +101,20 @@
                     echo $sessionId;
                 }
             }
-            // Partie like button
-            
             if (isset($_POST['toLike'])) {
-                $lInstructionToLikeSQL = "INSERT INTO likes (id, user_id, post_id) VALUES (NULL, $sessionId, $postsId);";
+                $lInstructionToLikeSQL = "INSERT INTO likes "
+                    . "(id, user_id, post_id) "
+                    . " VALUES (NULL, "
+                    . $_SESSION['connected_id'] . ", "
+                    . $_POST['post_id'] . ")";
 
-
-                // $lInstructionToLikeSQL = "INSERT INTO likes "
-                //     . "(id, user_id, post_id) "
-                //     . "VALUES (NULL, "
-                //     . $sessionId . ", "
-                //     . $postsId . ");"
-                // ;
-            
                 $ok = $mysqli->query($lInstructionToLikeSQL);
                 if (!$ok) {
                     echo ("Impossible de like: " . $mysqli->error);
-                    // echo "lol";
-                    echo $postsId;
-                } else {
-                    echo "ça marche";
+
                 }
             }
+
 
             $enCoursDeTraitement = isset($_POST['alias']);
             if ($enCoursDeTraitement) {
@@ -148,6 +141,8 @@
                 } else {
                     echo "Message posté en tant que : " . $listAuteurs[$authorId];
                 }
+
+
             }
 
             /**
@@ -157,6 +152,7 @@
         SELECT
             posts.content,
             posts.created,
+            posts.id,
             users.alias AS author_name,
             users.id AS author_id,
             like_counts.like_number,
@@ -178,14 +174,6 @@
         ORDER BY
             posts.created DESC
         LIMIT 15";
-
-            // Selection content dans la table posts
-            // Selection created dans posts
-            // Selection alias dans la table users et l'appelle author_name
-            // Selection id dans la table users et l'appelle author_id
-            // Compte le nombre de likes par id de likes et il transforme en like_number
-            
-
 
             $lesInformations = $mysqli->query($laQuestionEnSql);
             if (!$lesInformations) {
@@ -218,9 +206,8 @@
                     <footer>
                         <small>♥
                             <?php echo $post['like_number'] ?>
-                            <?php echo $post['likes.post_id'] ?>
-                            <?php echo "test" ?>
-                            <form action="" method="post" name="likeForm">
+                            <form action="" method="post" name="like">
+                                <input type="hidden" name="post_id" value="<?php echo $post['id'] ?>">
                                 <input type="submit" name="toLike" value="Like">
                             </form>
                         </small>
