@@ -13,8 +13,10 @@
     <?php include("header.php"); ?>
 
     <div id="wrapper">
+
+
         <aside>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="avatar.jpeg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez la liste des personnes dont
@@ -25,7 +27,7 @@
                 </p>
 
             </section>
-        </aside>
+        </aside> 
         <main class='contacts'>
             <?php
             // Etape 1: récupérer l'id de l'utilisateur
@@ -46,7 +48,7 @@
             while ($user = $lesInformations->fetch_assoc()) {
                 ?>
                 <article>
-                    <img src="user.jpg" alt="blason" />
+                    <img src="avatar2.jpeg" alt="blason" />
                     <h3>
                         <?php echo $user['alias'] ?>
                     </h3>

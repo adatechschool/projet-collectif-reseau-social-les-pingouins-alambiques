@@ -2,7 +2,7 @@
 session_start();
 ?>
 <header>
-    <img src="resoc.jpg" alt="Logo de notre réseau social" />
+    <img src="logo.jpg" alt="Logo de notre réseau social" />
     <nav id="menu">
         <a href="news.php">Actualités</a>
         <a href="wall.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mur</a>

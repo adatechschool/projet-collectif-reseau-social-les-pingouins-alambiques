@@ -14,11 +14,11 @@
 
     <div id="wrapper">
         <aside>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="avatar.jpeg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez les derniers messages de
-                    tous les utilisatrices du site.</p>
+                    toustes les utilisateurices du site.</p>
             </section>
         </aside>
         <main>
@@ -54,7 +54,7 @@
             users.alias AS author_name,
             users.id AS author_id,
             like_counts.like_number,
-            GROUP_CONCAT(tags.label) AS taglist
+            GROUP_CONCAT(tags.label SEPARATOR '#') AS taglist
         FROM
             posts
         JOIN users ON users.id = posts.user_id
@@ -112,8 +112,8 @@
                             <?php echo $post['like_number'] ?>
                         </small>
                         <a href="">
-                            <?php echo $post['taglist'] ?>
-                        </a>,
+                            <?php echo "#".$post['taglist'] ?>
+                        </a>
                     </footer>
                 </article>
                 <?php

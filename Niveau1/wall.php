@@ -43,7 +43,7 @@
             $user = $lesInformations->fetch_assoc();
             //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
             ?>
-            <img src="user.jpg" alt="Portrait de l'utilisatrice" />
+            <img src="avatar.jpeg" alt="Portrait de l'utilisatrice" />
             <section>
                 <h3>Présentation</h3>
                 <p>Sur cette page vous trouverez tous les message de l'utilisatrice :
@@ -160,7 +160,7 @@
             users.alias AS author_name,
             users.id AS author_id,
             like_counts.like_number,
-            GROUP_CONCAT(tags.label) AS taglist
+            GROUP_CONCAT(tags.label SEPARATOR '#') AS taglist
         FROM
             posts
         JOIN users ON users.id = posts.user_id
@@ -225,7 +225,7 @@
                             </form>
                         </small>
                         <a href="">
-                            <?php echo $post['taglist'] ?>
+                            <?php echo "#".$post['taglist'] ?>
                         </a>
                     </footer>
                 </article>
