@@ -8,6 +8,7 @@ session_start();
         <a href="wall.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Mur</a>
         <a href="feed.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Flux</a>
         <a href="tags.php?tag_id=<?php echo $_SESSION['connected_id'] ?>">Mots-clés</a>
+        <a href="login.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Connexion</a>
     </nav>
     <nav id="user">
         <?php
