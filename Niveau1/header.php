@@ -14,8 +14,8 @@ session_start();
 
         ?>
         <a href="">
-            <?php echo $user['alias'] ?>
-            Profile
+            <?php echo $_SESSION['connected_alias'] ?>
+            
         </a>
         <ul>
             <li><a href="settings.php?user_id=<?php echo $_SESSION['connected_id'] ?>">Paramètres</a></li>
