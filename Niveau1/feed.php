@@ -64,7 +64,7 @@
                     users.alias as author_name,
                     users.id as author_id,  
                     count(likes.id) as like_number,  
-                    GROUP_CONCAT( tags.label SEPARATOR '#') AS taglist 
+                    GROUP_CONCAT(DISTINCT tags.label SEPARATOR '#') AS taglist 
                     FROM followers 
                     JOIN users ON users.id=followers.followed_user_id
                     JOIN posts ON posts.user_id=users.id
